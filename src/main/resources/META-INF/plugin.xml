@@ -1,0 +1,148 @@
+<idea-plugin>
+    <id>org.surrealdb.surql</id>
+    <name>SurrealQL Language Support</name>
+    <vendor email="support@surrealdb.com" url="https://surrealdb.com">SurrealDB</vendor>
+
+    <description><![CDATA[
+    Language support for SurrealQL, the query language for SurrealDB.
+
+    <h3>Features</h3>
+    <ul>
+        <li>Syntax highlighting for .surql files</li>
+        <li>Keyword, operator, and string recognition</li>
+        <li>Comment support (-- // /* */ #)</li>
+        <li>Parameter highlighting ($param)</li>
+        <li>Brace matching and auto-closing</li>
+        <li>Comment/uncomment actions</li>
+        <li>Code completion for keywords, functions, and types</li>
+        <li>Documentation for keywords and built-in functions</li>
+        <li>Go to definition for tables, fields, and parameters</li>
+        <li>Semantic highlighting for function namespaces and types</li>
+        <li>Type inference for expressions</li>
+        <li>Type checking for operators and function arguments</li>
+        <li>Field type validation against DEFINE FIELD declarations</li>
+        <li>SCHEMAFULL table compliance checking</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- File Type -->
+        <fileType
+            name="SurrealQL"
+            implementationClass="org.surrealdb.surql.lang.SurqlFileType"
+            fieldName="INSTANCE"
+            language="SurrealQL"
+            extensions="surql"/>
+
+        <!-- Parser -->
+        <lang.parserDefinition
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.parser.SurqlParserDefinition"/>
+
+        <!-- Syntax Highlighting -->
+        <lang.syntaxHighlighterFactory
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlSyntaxHighlighterFactory"/>
+
+        <!-- Brace Matching -->
+        <lang.braceMatcher
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlBraceMatcher"/>
+
+        <!-- Commenter (comment/uncomment actions) -->
+        <lang.commenter
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlCommenter"/>
+
+        <!-- Code Completion -->
+        <completion.contributor
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlCompletionContributor"/>
+
+        <!-- Annotator for semantic highlighting -->
+        <annotator
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlAnnotator"/>
+
+        <!-- Error Annotator for syntax validation -->
+        <annotator
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlErrorAnnotator"/>
+
+        <!-- Documentation Provider -->
+        <lang.documentationProvider
+            language="SurrealQL"
+            implementationClass="org.surrealdb.surql.ide.SurqlDocumentationProvider"/>
+
+        <!-- Reference Contributor for Go to Definition -->
+        <psi.referenceContributor
+            language="SurrealQL"
+            implementation="org.surrealdb.surql.psi.SurqlReferenceContributor"/>
+
+        <!-- Inspections -->
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlUndefinedTable"
+            displayName="Undefined table reference"
+            enabledByDefault="true"
+            level="WEAK WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlUndefinedTableInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlUndefinedParameter"
+            displayName="Undefined parameter reference"
+            enabledByDefault="true"
+            level="WEAK WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlUndefinedParameterInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlDeprecatedSyntax"
+            displayName="Deprecated SurrealQL syntax"
+            enabledByDefault="true"
+            level="WEAK WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlDeprecatedSyntaxInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlUnusedParameter"
+            displayName="Unused parameter"
+            enabledByDefault="true"
+            level="WEAK WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlUnusedParameterInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlDuplicateDefinition"
+            displayName="Duplicate definition"
+            enabledByDefault="true"
+            level="WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlDuplicateDefinitionInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlTypeCheck"
+            displayName="Type check"
+            enabledByDefault="true"
+            level="WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlTypeCheckInspection"/>
+
+        <localInspection
+            language="SurrealQL"
+            groupName="SurrealQL"
+            shortName="SurqlFieldTypeValidation"
+            displayName="Field type validation"
+            enabledByDefault="true"
+            level="WARNING"
+            implementationClass="org.surrealdb.surql.ide.inspections.SurqlFieldTypeValidationInspection"/>
+    </extensions>
+</idea-plugin>
